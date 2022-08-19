@@ -34,7 +34,7 @@ function addCityToDOM(id, city, description, image) {
 
   const column = createElement("div",["class"],["col-xs-12 col-sm-6 col-lg-3 mb-4"]);
 
-  const link = createElement("a",["href","id"],[`pages/adventures/?city=${city}`,`${id}`]);
+  const link = createElement("a",["href","id"],[`pages/adventures/?city=${id}`,`${id}`]);
 
   link.innerHTML = `<div class="tile">
 
@@ -57,7 +57,7 @@ function addCityToDOM(id, city, description, image) {
                   attribute.forEach((val,i)=>{
                     newElement.setAttribute(val,value[i]);
                   })
-                  console.log(newElement);
+                  // console.log(newElement);
                   return newElement;
                 }
 //                  >>>>>>>>>>>My Creation End <<<<<<<<<<

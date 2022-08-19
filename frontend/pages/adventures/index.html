@@ -6,9 +6,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QTrip Adventures</title>
-    <link rel="stylesheet" href="../../css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../css/styles.css" />
 </head>
 
 <body>
@@ -76,6 +76,7 @@
                             Clear
                         </div>
                     </div>
+                    <button class="btn btn-outline-primary mx-4" id="newadventure" type="button">Add New Adventure</button>
                 </div>
                 <!-- Section to display all selected categories  -->
                 <div class="mt-2" id="category-section">
@@ -106,6 +107,7 @@
             filterFunction,
             saveFiltersToLocalStorage,
             getFiltersFromLocalStorage,
+            newAdventure,
             generateFilterPillsAndUpdateDOM
         } from "../../modules/adventures_page.js";
 
@@ -126,6 +128,7 @@
 
             //Fetches the City from URL query param (here : window.location.search is an in-built browser property that returns the query param from URL, example: http://localhost:8081/?city=bengaluru => window.location.search would return "?city=bengaluru")
             let city = await getCityFromURL(window.location.search);
+            console.log(city);
 
             //Fetches the adventures for the particular city
             adventures = await fetchAdventures(city);
@@ -138,6 +141,13 @@
 
             // Updates the DOM with filter pills if any
             generateFilterPillsAndUpdateDOM(filters);
+
+            //adds new adventure
+
+            document.getElementById("newadventure").addEventListener("click",()=>{
+                newAdventure(city);
+            });
+
         })();
 
 

@@ -5,22 +5,51 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
-
+  return search.split("=")[1].toLowerCase();
 }
 
 //Implementation of fetch call with a paramterized input based on city
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
-
+  try {
+    const data = await fetch(`${config.backendEndpoint}adventures?city=${city}`);
+    return  await data.json();
+  } catch (error) {
+    return null;
+  }
 }
 
 //Implementation of DOM manipulation to add adventures for the given city from list of adventures
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  // console.log(adventures);
+  let rowElement=document.getElementById("data");
+  // rowElement.setAttribute("class",`${rowElement.getAttribute("class")}`);
+  adventures.forEach((item)=>{
+    // console.log(`detail/?adventure=${item.id}`);
+    let column = document.createElement("div");
+  column.setAttribute("class","col-6 col-lg-3 mb-3");
+  column.innerHTML = `<a href="detail/?adventure=${item.id}" id="${item.id}">
+        <div class="activity-card card">
+          <img src="${item.image}" class="activity-card-image" alt="image">
 
+            <div class="card-body col-12 d-flex justify-content-between p-1">
+              <h5 class="card-title small">${item.name}</h5>
+              <p class="card-text small">₹ ${item.costPerHead}</p>
+            </div>
+
+            <div class="card-body col-12 d-flex justify-content-between p-1">
+              <h5 class="card-title small">DURATION</h5>
+              <p class="card-text small">${item.duration} HOURS</p>
+            </div>
+        </div>
+</a>`;
+rowElement.append(column);
+  })
 }
+
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
 function filterByDuration(list, low, high) {
@@ -80,6 +109,17 @@ function generateFilterPillsAndUpdateDOM(filters) {
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
 
 }
+
+async function newAdventure(city){
+  const send = await fetch
+  (`${config.backendEndpoint}adventures/new`,
+  {
+      method: "POST",
+      body:JSON.stringify({"city":city}),
+      headers:{ "Content-type": "application/json; charset=UTF-8"}
+  })
+}
+
 export {
   getCityFromURL,
   fetchAdventures,
@@ -89,5 +129,6 @@ export {
   filterFunction,
   saveFiltersToLocalStorage,
   getFiltersFromLocalStorage,
+  newAdventure,
   generateFilterPillsAndUpdateDOM,
 };
