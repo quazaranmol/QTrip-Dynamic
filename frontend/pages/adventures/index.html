@@ -128,25 +128,29 @@
 
             //Fetches the City from URL query param (here : window.location.search is an in-built browser property that returns the query param from URL, example: http://localhost:8081/?city=bengaluru => window.location.search would return "?city=bengaluru")
             let city = await getCityFromURL(window.location.search);
-            console.log(city);
+            // console.log(city);
 
             //Fetches the adventures for the particular city
-            adventures = await fetchAdventures(city);
-
+            adventures =await fetchAdventures(city);
+            // console.log(fetchAdventures(city))
             //Applies filters on the adventures list
             let filteredAdventures = filterFunction(adventures, filters);
-
+            // console.log(filters,adventures)
             //Updates the filtered adventures list to the DOM
             addAdventureToDOM(filteredAdventures)
 
             // Updates the DOM with filter pills if any
             generateFilterPillsAndUpdateDOM(filters);
 
-            //adds new adventure
+        // //                   >>>>>>>>>>>>ADDING NEW RANDOM ADVENTURE<<<<<<<<<<<<<<
 
             document.getElementById("newadventure").addEventListener("click",()=>{
                 newAdventure(city);
             });
+            
+        // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
+
+            document.getElementById("category-list").addEventListener("click",(event)=>removeSelected(event))
 
         })();
 
@@ -155,16 +159,24 @@
         function selectDuration(event) {
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
+            document.getElementById("data").textContent = "";
+            filters.duration = event.target.value;
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
             // 2. Invoke saveFiltersToLocalStorage here
-
+            saveFiltersToLocalStorage(filters);
         }
 
         //executed when clear button is clicked on duration filter dropdown
         function clearDuration(event) {
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
+            document.getElementById("data").textContent = "";
+            filters.duration = "";
+            filterFunction(adventures,filters);
+            addAdventureToDOM(adventures);
             // 2. Invoke saveFiltersToLocalStorage here
-
+            saveFiltersToLocalStorage(filters);
         }
 
 
@@ -173,6 +185,7 @@
         function selectCategory(event) {
             document.getElementById("data").textContent = "";
             document.getElementById("category-list").textContent = "";
+            
 
             let category = event.target.value;
             document.getElementById("category-select").selectedIndex = 0;
@@ -187,6 +200,7 @@
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //executed when clear button is clicked on category filter dropdown
@@ -200,12 +214,24 @@
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //helper function
         function onlyUnique(value, index, self) {
             return self.indexOf(value) === index;
         }
+
+
+        // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
+        // function removeSelected(event){
+        //     filters.category.filter(checkCategory);
+        //     function checkCategory(item){
+        //         return item!=event.target.textContent;
+        //     }
+        //     let filteredAdventures = filterFunction(adventures, filters);
+        //     addAdventureToDOM(filteredAdventures);
+        // }
 
         //registering module based functions in the DOM in order for them to work
         window.selectDuration = selectDuration;
