@@ -171,12 +171,12 @@ function generateFilterPillsAndUpdateDOM(filters) {
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
   const categorySelect = document.getElementById("category-list");
   filters.category.forEach((filter)=>{
-    categorySelect.innerHTML += `<span class="category-filter">${filter}</span>` 
+    categorySelect.innerHTML += `<div class="category-filter">${filter} <button class:"" onclick="removeCategory(event)">x</button></div>` 
   })
 
   const durationSelect = document.getElementById("duration-select");
   durationSelect.value = filters.duration;
-  console.log(durationSelect.value);
+  // console.log(durationSelect.value);
 }
 
 
@@ -191,6 +191,12 @@ async function newAdventure(city){
       headers:{ "Content-type": "application/json; charset=UTF-8"}
   })
 }
+
+        // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
+        function removeCategory(event){
+          console.log("Hello",event.target);
+      }
+
 
 export {
   getCityFromURL,

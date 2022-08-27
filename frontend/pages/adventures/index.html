@@ -148,9 +148,6 @@
                 newAdventure(city);
             });
             
-        // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
-
-            document.getElementById("category-list").addEventListener("click",(event)=>removeSelected(event))
 
         })();
 
@@ -224,14 +221,10 @@
 
 
         // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
-        // function removeSelected(event){
-        //     filters.category.filter(checkCategory);
-        //     function checkCategory(item){
-        //         return item!=event.target.textContent;
-        //     }
-        //     let filteredAdventures = filterFunction(adventures, filters);
-        //     addAdventureToDOM(filteredAdventures);
+        //     function removeCategory(event){
+        //     console.log("Hello",event.target);
         // }
+        
 
         //registering module based functions in the DOM in order for them to work
         window.selectDuration = selectDuration;
