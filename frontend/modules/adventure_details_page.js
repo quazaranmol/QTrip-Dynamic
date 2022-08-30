@@ -4,47 +4,102 @@ import config from "../conf/index.js";
 function getAdventureIdFromURL(search) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Get the Adventure Id from the URL
-
+  return search.split("=")[1];
 
   // Place holder for functionality to work in the Stubs
-  return null;
+  // return null;
 }
 //Implementation of fetch call with a paramterized input based on adventure ID
 async function fetchAdventureDetails(adventureId) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Fetch the details of the adventure by making an API call
-
-
+  try {
+    let url = `${config.backendEndpoint}adventures/detail?adventure=${adventureId}`;
+    const adventure = await fetch(url);
+    // console.log(await adventure.json());
+    return await adventure.json();
+  } catch (error) {
+    return null;
+  }
   // Place holder for functionality to work in the Stubs
-  return null;
+  // return null;
 }
 
 //Implementation of DOM manipulation to add adventure details to DOM
 function addAdventureDetailsToDOM(adventure) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the details of the adventure to the HTML DOM
-
+  // console.log(adventure);
+  document.getElementById("adventure-name").textContent = adventure.name;
+  document.getElementById("adventure-subtitle").textContent = adventure.subtitle;
+  document.getElementById("photo-gallery").setAttribute("class","row mb-3 carousel-inner")
+  adventure.images.forEach((image,index)=>{
+    if(index === 0){
+    document.getElementById("photo-gallery").innerHTML += `<div class="carousel-item active">
+    <img src="${image}" class="activity-card-image d-block w-100 alt="..."">
+    </div>
+    `}
+    else{
+      document.getElementById("photo-gallery").innerHTML += `<div class="carousel-item">
+    <img src="${image}" class="activity-card-image d-block w-100 alt="..."">
+    </div>
+    `
+    }
+  })
+  document.getElementById("adventure-content").textContent = adventure.content;
 }
 
 //Implementation of bootstrap gallery component
 function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
+  const carouselItems = document.createElement("div");
+  carouselItems.setAttribute("class","row mb-3 carousel-inner")
+  images.forEach((image,index)=>{
+    const imageItem = document.createElement("div")
+    index === 0 ? imageItem.setAttribute("class","carousel-item active") : imageItem.setAttribute("class","carousel-item");
+    imageItem.innerHTML = `
+    <img src="${image}" class="activity-card-image d-block w-100 alt="..."">
+    `;
+    carouselItems.append(imageItem);
+  })
+  console.log(carouselItems)
 
+  document.getElementById(
+    "photo-gallery"
+  ).innerHTML = `
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+  `;
+
+  document.getElementsByClassName("carousel")[0].append(carouselItems);
 }
 
 //Implementation of conditional rendering of DOM based on availability
 function conditionalRenderingOfReservationPanel(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If the adventure is already reserved, display the sold-out message.
-
 }
 
 //Implementation of reservation cost calculation based on persons
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
-
 }
 
 //Implementation of reservation form submission
@@ -58,7 +113,6 @@ function captureFormSubmit(adventure) {
 function showBannerIfAlreadyReserved(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If user has already reserved this adventure, show the reserved-banner, else don't
-
 }
 
 export {
