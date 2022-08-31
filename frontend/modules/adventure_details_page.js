@@ -45,7 +45,7 @@ function addAdventureDetailsToDOM(adventure) {
     </div>
     `
     }
-  })
+  });
   document.getElementById("adventure-content").textContent = adventure.content;
 }
 

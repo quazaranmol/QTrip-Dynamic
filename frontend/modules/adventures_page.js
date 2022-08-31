@@ -1,4 +1,3 @@
-
 import config from "../conf/index.js";
 
 //Implementation to extract city from query params
@@ -15,12 +14,16 @@ async function fetchAdventures(city) {
   try {
     let response = await fetch(config.backendEndpoint + `adventures?city=${city}`);
     let data = await response.json();
+    // console.log(data);
     return data;
   }
   catch (err) {
     return null;
   }
 }
+
+//Implementation of DOM manipulation to add adventures for the given city from list of adventures
+function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
   let rowElement=document.getElementById("data");
@@ -167,11 +170,12 @@ function generateFilterPillsAndUpdateDOM(filters) {
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
   const categorySelect = document.getElementById("category-list");
   filters.category.forEach((filter)=>{
-    categorySelect.innerHTML += `<div class="category-filter">${filter} <button class:"" onclick="removeCategory(event)">x</button></div>` 
+    categorySelect.innerHTML += `<span class="category-filter">${filter}</span>` 
   })
 
   const durationSelect = document.getElementById("duration-select");
-  // console.log(durationSelect.value);
+  durationSelect.value = filters.duration;
+  console.log(durationSelect.value);
 }
 
 
@@ -187,15 +191,13 @@ async function newAdventure(city){
   })
 }
 
-        // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
-        function removeCategory(event){
-          console.log("Hello",event.target);
-      }
-
-
 export {
   getCityFromURL,
   fetchAdventures,
+  addAdventureToDOM,
+  filterByDuration,
+  filterByCategory,
+  filterFunction,
   saveFiltersToLocalStorage,
   getFiltersFromLocalStorage,
   newAdventure,
