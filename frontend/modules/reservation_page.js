@@ -4,17 +4,46 @@ import config from "../conf/index.js";
 async function fetchReservations() {
   // TODO: MODULE_RESERVATIONS
   // 1. Fetch Reservations by invoking the REST API and return them
-
-
+  try {
+    const response = await fetch(`${config.backendEndpoint}reservations/`);
+    return (await response.json());
+  } catch (error) {
+      return null;
+  }
   // Place holder for functionality to work in the Stubs
-  return null;
+
 }
 
 //Function to add reservations to the table. Also; in case of no reservations, display the no-reservation-banner, else hide it.
 function addReservationToTable(reservations) {
   // TODO: MODULE_RESERVATIONS
   // 1. Add the Reservations to the HTML DOM so that they show up in the table
-
+  if(reservations.length === 0){
+    document.getElementById("no-reservation-banner").style.display = "block";
+    document.getElementById("reservation-table-parent").style.display = "none";
+  }
+  else{
+    document.getElementById("reservation-table-parent").style.display = "block";
+    document.getElementById("no-reservation-banner").style.display = "none";
+    reservations.forEach(reservation => {
+      console.log(reservation);
+      let row = document.createElement("tr");
+      // row.setAttribute("id",reservation.id)
+      let tripDate = new Date(reservation.date);
+      let bookDate = new Date(reservation.time);
+      row.innerHTML = `
+        <th scope="col">${reservation.id}</th>
+        <td scope="col">${reservation.name}</td>
+        <td scope="col">${reservation.adventureName}</td>
+        <td scope="col">${reservation.person}</td>
+        <td scope="col">${tripDate.toLocaleDateString("en-IN")}</td>
+        <td scope="col">${reservation.price}</td>
+        <td scope="col">${bookDate.toLocaleString("en-IN",{ day:'numeric', month: 'long', year:'numeric' })}, ${bookDate.toLocaleTimeString("en-IN")}</td>
+        <td scope="col"><button type="button" id="${reservation.id}" class="reservation-visit-button"><a href="../detail/?adventure=${reservation.adventure}">Visit Adventure</a></button></td>
+      `;
+      document.getElementById("reservation-table").append(row);
+    });
+  }
   //Conditionally render the no-reservation-banner and reservation-table-parent
 
   /*
