@@ -15,16 +15,12 @@ async function fetchAdventures(city) {
   try {
     let response = await fetch(config.backendEndpoint + `adventures?city=${city}`);
     let data = await response.json();
-    // console.log(data);
     return data;
   }
   catch (err) {
     return null;
   }
 }
-
-//Implementation of DOM manipulation to add adventures for the given city from list of adventures
-function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
   let rowElement=document.getElementById("data");
@@ -175,7 +171,6 @@ function generateFilterPillsAndUpdateDOM(filters) {
   })
 
   const durationSelect = document.getElementById("duration-select");
-  durationSelect.value = filters.duration;
   // console.log(durationSelect.value);
 }
 
@@ -201,10 +196,6 @@ async function newAdventure(city){
 export {
   getCityFromURL,
   fetchAdventures,
-  addAdventureToDOM,
-  filterByDuration,
-  filterByCategory,
-  filterFunction,
   saveFiltersToLocalStorage,
   getFiltersFromLocalStorage,
   newAdventure,

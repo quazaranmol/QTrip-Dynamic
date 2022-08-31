@@ -184,10 +184,7 @@
             document.getElementById("category-list").textContent = "";
             
 
-            let category = event.target.value;
             document.getElementById("category-select").selectedIndex = 0;
-
-            filters["category"].push(category);
             filters["category"] = filters["category"].filter(onlyUnique);
 
 
@@ -221,14 +218,11 @@
 
 
         // //                   >>>>>>>>>>>>REMOVING FILTERS<<<<<<<<<<<<<<
-        //     function removeCategory(event){
         //     console.log("Hello",event.target);
         // }
         
 
         //registering module based functions in the DOM in order for them to work
-        window.selectDuration = selectDuration;
-        window.selectCategory = selectCategory;
         window.clearDuration = clearDuration;
         window.clearCategory = clearCategory;
     </script>
